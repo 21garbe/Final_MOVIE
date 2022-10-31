@@ -51,8 +51,25 @@ public class TOE : MonoBehaviour
     }
     public void Compute_Score()
     {
-        score = 0;
-        int taille = List_LHand_ref.Count;
+        score=1;
+        for (int i = 0; i < taille; i++)
+        { 
+            Vector3 LHand_ref = List_LHand_ref[i].position;
+            Vector3 LHand_player = List_LHand_player[i].position;
+            Vector3 RHand_ref = List_Rhand_ref[i].position;
+            Vector3 RHand_player = List_Rhand_player[i].position;
+            Vector3 Head_ref = List_Head_ref[i].position;
+            Vector3 Head_player = List_Head_player[i].position;
+            int taille = List_LHand_ref.Count;
+            float Compar_LHand = Vector3.Dot(LHand_ref,LHand_player) / (LHand_ref.magnitude * LHand_player.magnitude);
+            float Compar_RHand = Vector3.Dot(RHand_ref,RHand_player) / (RHand_ref.magnitude * RHand_player.magnitude);
+            float Compar_Head = Vector3.Dot(Head_ref,Head_player) / (Head_ref.magnitude * Head_player.magnitude);
+            score*=Compar_LHand;
+            score*=Compar_Head;
+            score*=Compar_RHand;
+        }
+        /*
+        score=0;
         for (int i = 0; i < taille; i++)
         { 
             for (int j = 0; j < 3; j++)
@@ -65,6 +82,7 @@ public class TOE : MonoBehaviour
                 score += Math.Pow(vect, 2);
             };
         }
+        */
         Debug.Log(score);
         Score_SO.score = (int)Math.Round(score);
         display_score_function?.Invoke();
